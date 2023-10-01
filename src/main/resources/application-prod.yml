@@ -1,0 +1,18 @@
+server:
+  port: ${PORT}
+
+spring:
+  datasource:
+    url: ${DATASOURCE}
+    username: ${DB_NAME}
+    password: ${DB_PASS}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: create-drop

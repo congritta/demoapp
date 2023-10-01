@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  backend:
+    image: backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8099:8099"
+    environment:
+      - PORT=8099
+      - DB_NAME=admin
+      - DB_PASS=admin
+      - SPRING_PROFILES_ACTIVE=prod
+      - DATASOURCE=jdbc:postgresql://postgres-demo:5432/demoDB
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres-demo
+    image: "postgres:15.2"
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=demoDB
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5438:5432"
+    networks:
+      - postgres
+    volumes:
+      - /var/docker-volumes/pg-demo:/var/lib/postgresql/data/
+
+networks:
+  postgres:
+    driver: bridge
